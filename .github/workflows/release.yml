@@ -1,36 +1,22 @@
-# .github/workflows/release.yml
-name: Auto Tag & Release
+name: Auto Release
 
 on:
   push:
     branches:
-      - "*"   # сите branch-ови, можеш да ограничиш на main/dev
+      - "*"   # или branch што сакаш
 
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set tag name
-        id: vars
-        run: |
-          # креирај уникатен tag според број на commit или timestamp
-          echo "TAG_NAME=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_ENV
-
-      - name: Create Git tag
-        run: |
-          git config user.name "github-actions"
-          git config user.email "actions@github.com"
-          git tag $TAG_NAME
-          git push origin $TAG_NAME
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
+      - name: Create Release
+        uses: ncipollo/release-action@v1
         with:
-          tag_name: ${{ env.TAG_NAME }}
-          name: Release ${{ env.TAG_NAME }}
+          tag: v${{ github.run_number }}
+          name: Release ${{ github.run_number }}
           body: |
             Автоматски Release за commit ${{ github.sha }}
         env:
