@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<settings>
+
+  <category label="Radarr">
+    <setting id="enable_radarr"  type="bool"   label="Enable Radarr module"                    default="true"/>
+    <setting id="radarr_url"     type="text"   label="Radarr URL (e.g. http://localhost:7878)" default="http://localhost:7878"/>
+    <setting id="radarr_api_key" type="text"   label="Radarr API Key"                          default="" option="hidden"/>
+  </category>
+
+  <category label="Sonarr">
+    <setting id="enable_sonarr"  type="bool"   label="Enable Sonarr module"                   default="true"/>
+    <setting id="sonarr_url"     type="text"   label="Sonarr URL (e.g. http://localhost:8989)" default="http://localhost:8989"/>
+    <setting id="sonarr_api_key" type="text"   label="Sonarr API Key"                          default="" option="hidden"/>
+  </category>
+
+  <category label="Calendar">
+    <setting id="days_past"   type="number" label="Days in the past to show"   default="1"  />
+    <setting id="days_future" type="number" label="Days ahead to show"         default="14" />
+  </category>
+
+  <category label="Playback">
+    <setting id="path_map_from" type="text" label="Path map from (e.g. /volume1)" default=""/>
+    <setting id="path_map_to"   type="text" label="Path map to (e.g. smb://NAS/volume1)" default=""/>
+  </category>
+
+</settings>
