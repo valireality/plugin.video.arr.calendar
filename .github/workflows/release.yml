@@ -5,19 +5,33 @@ on:
     branches:
       - "*"   # или branch што сакаш
 
+# Give the workflow explicit permission to write repository contents (needed to create releases/tags)
+permissions:
+  contents: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
 
       - name: Create Release
         uses: ncipollo/release-action@v1
         with:
-          tag: v${{ github.run_number }}
-          name: Release ${{ github.run_number }}
+          tag: $TAG_NAME
+          name: Release $TAG_NAME
           body: |
             Автоматски Release за commit ${{ github.sha }}
+          # create tag only if it does not already exist, then push the tag
+          if git rev-parse -q --verify "refs/tags/$TAG_NAME" >/dev/null; then
+            echo "Tag $TAG_NAME already exists, skipping tag creation."
+          else
+            git tag "$TAG_NAME"
+            git push origin "refs/tags/$TAG_NAME"
+          fi
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
